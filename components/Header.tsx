@@ -56,22 +56,41 @@ const Header = () => {
       <div className="ml-5 flex items-center lg:hidden">
         <MenuIcon className="icon" />
       </div>
-      <div
-        onClick={() => {
-          session ? signOut() : signIn()
-        }}
-        className="hidden cursor-pointer items-center space-x-2 border border-gray-100 p-2 lg:flex"
-      >
-        <div className="relative h-5 w-5 flex-shrink-0">
-          <Image
-            objectFit="contain"
-            src="https://links.papareact.com/23l"
-            alt=""
-            layout="fill"
-          />
+      {session ? (
+        <div
+          onClick={() => signOut()}
+          className="hidden cursor-pointer items-center space-x-2 border border-gray-100 p-2 lg:flex"
+        >
+          <div className="relative h-5 w-5 flex-shrink-0">
+            <Image
+              objectFit="contain"
+              src="https://links.papareact.com/23l"
+              alt=""
+              layout="fill"
+            />
+          </div>
+          <div>
+            <p className="truncate">{session?.user?.name}</p>
+            <p className="text-gry-400">1 Karma</p>
+          </div>
+          <ChevronDownIcon className="h-5 flex-shrink-0 text-gray-400" />
         </div>
-        <p className="text-gray-400">{session ? 'Sign Out' : 'Sign In'}</p>
-      </div>
+      ) : (
+        <div
+          onClick={() => signIn()}
+          className="hidden cursor-pointer items-center space-x-2 border border-gray-100 p-2 lg:flex"
+        >
+          <div className="relative h-5 w-5 flex-shrink-0">
+            <Image
+              objectFit="contain"
+              src="https://links.papareact.com/23l"
+              alt=""
+              layout="fill"
+            />
+          </div>
+          <p className="text-gray-400">Sign In</p>
+        </div>
+      )}
     </div>
   )
 }
