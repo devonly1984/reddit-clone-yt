@@ -8,6 +8,7 @@ import client from '../apollo-client'
 import { useForm } from 'react-hook-form'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
+import toast from 'react-hot-toast'
 
 type FormData = {
   postTitle: string
@@ -29,7 +30,7 @@ const PostBox = () => {
     formState: { errors },
   } = useForm<FormData>()
   const onSubmit = handleSubmit(async (formData) => {
-    console.log(formData)
+    const notification = toast.loading('Creating new post...')
     try {
       const {
         data: { getSubredditListByTopic },
@@ -49,7 +50,7 @@ const PostBox = () => {
             topic: formData.subreddit,
           },
         })
-        console.log('Creating post...', formData)
+
         const image = formData.postImage || ''
         const {
           data: { insertPost: newPost },
@@ -65,7 +66,7 @@ const PostBox = () => {
         console.log('New Post added:', newPost)
       } else {
         //use existing
-        console.log(getSubredditListByTopic)
+
         const image = formData.postImage || ''
         const {
           data: { insertPost },
@@ -83,7 +84,14 @@ const PostBox = () => {
       setValue('postImage', '')
       setValue('postTitle', '')
       setValue('subreddit', '')
-    } catch (error) {}
+      toast.success('New Post Created', {
+        id: notification,
+      })
+    } catch (error) {
+      toast.error('Whoops something went wrong', {
+        id: notification,
+      })
+    }
   })
   return (
     <form
