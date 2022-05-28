@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 
 const client = new ApolloClient({
-  uri: "https://liverpool.stepzen.net/api/binging-pronghorn/__graphql",
+  uri: 'http://localhost:5001/api/binging-pronghorn',
   headers: {
     Authorization: `Apikey ${process.env.NEXT_PUBLIC_STEPZEN_APIKEY}`,
   },

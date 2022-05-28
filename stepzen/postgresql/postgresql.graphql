@@ -43,7 +43,6 @@ type Vote {
   username: String
 }
 
-
 type Query {
   getCommentList: [Comment]
     @dbquery(
@@ -100,6 +99,14 @@ type Query {
       """
       configuration: "postgresql_config"
     )
+  getPostListByPostId(post_id: ID!): Post
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select * from "post" where "post"."id" = $1
+      """
+      configuration: "postgresql_config"
+    )
   """
   In this example, two query parameters are passed. If the request to the DB will
   return at most one value you can remove the square brackets from the result.
@@ -115,8 +122,21 @@ type Query {
   getPostList: [Post]
     @dbquery(
       type: "postgresql"
-      schema: "public"
-      table: "post"
+      query: """
+       select * from "post"
+      order by "post"."created_at" desc
+      """
+      configuration: "postgresql_config"
+    )
+  getPostListByTopic(topic: String!): [Post]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select *, "post".id as id from "post"
+      join "subreddit" on "subreddit"."id" = "post"."subreddit_id"
+      where "subreddit"."topic" = $1
+      order by "post"."created_at" desc
+      """
       configuration: "postgresql_config"
     )
   getSubredditList: [Subreddit]
@@ -166,6 +186,13 @@ type Mutation {
     @dbquery(
       type: "postgresql"
       table: "subreddit"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  insertComment(post_id: ID!, username: String!, text: String!): Comment
+    @dbquery(
+      type: "postgresql"
+      table: "comment"
       dml: INSERT
       configuration: "postgresql_config"
     )

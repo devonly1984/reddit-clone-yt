@@ -1,6 +1,4 @@
 import Head from 'next/head'
-import Header from '../components/Header'
-import Image from 'next/image'
 import type { NextPage } from 'next'
 import PostBox from '../components/PostBox'
 import Feed from '../components/Feed'
