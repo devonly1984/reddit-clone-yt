@@ -71,6 +71,7 @@ const PostPage = () => {
             }
           />
           <button
+            disabled={!session}
             type="submit"
             className="rounded-full bg-red-500 p-3 font-semibold text-white disabled:bg-gray-200"
           >
@@ -87,13 +88,15 @@ const PostPage = () => {
               className="relative flex items-center space-x-2 space-y-5"
               key={comment.id}
             >
-              <hr />
-              <div>
+              <hr className="absolute top-10 left-7 z-0 h-16 border " />
+              <div className="z-50">
                 <Avatar seed={comment.username} />
               </div>
               <div className="flex flex-col">
-                <p>
-                  <span>{comment.username}</span>
+                <p className="py-2 text-xs text-gray-400 ">
+                  <span className="text-gra-600 font-semibold">
+                    {comment.username}
+                  </span>
                   <ReactTimeago date={comment.created_at} />
                 </p>
                 <p>{comment.text}</p>

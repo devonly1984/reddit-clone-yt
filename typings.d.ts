@@ -5,7 +5,7 @@ export type Comment = {
   post_id: number
   text: string
 }
-type Vote = {
+export type Vote = {
   created_at: string
   id: number
   post_id: number

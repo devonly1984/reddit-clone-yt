@@ -67,7 +67,6 @@ const PostBox = ({ subreddit }: Props) => {
             username: session?.user?.name,
           },
         })
-        console.log('New Post added:', newPost)
       } else {
         //use existing
 

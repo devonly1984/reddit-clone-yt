@@ -39,7 +39,7 @@ type Vote {
   created_at: DateTime
   id: ID!
   post_id: ID
-  upvote: Int
+  upvote: Boolean
   username: String
 }
 
@@ -107,6 +107,15 @@ type Query {
       """
       configuration: "postgresql_config"
     )
+  getSubredditListLimit(limit: Int!): [Subreddit]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select * from "subreddit" order by "created_at" desc limit $1
+      """
+      configuration: "postgresql_config"
+    )
+
   """
   In this example, two query parameters are passed. If the request to the DB will
   return at most one value you can remove the square brackets from the result.
@@ -199,6 +208,14 @@ type Mutation {
   """
   In this mutation example you can see how to do a mutation to delete data from the database.
   """
+  insertVote(post_id: ID!, username: String!, upvote: Boolean!): Vote
+    @dbquery(
+      type: "postgresql"
+      table: "vote"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+
   deletePost(
     image: String!
     id: ID!
