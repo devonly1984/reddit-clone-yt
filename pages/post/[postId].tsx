@@ -8,6 +8,7 @@ import Avatar from '../../components/Avatar'
 import Post from '../../components/Post'
 import { ADD_COMMENT } from '../../graphql/mutations'
 import { GET_POST_BY_POST_ID } from '../../graphql/queries'
+
 type FormData = {
   comment: string
 }
@@ -28,13 +29,13 @@ const PostPage = () => {
   const [addComment] = useMutation(ADD_COMMENT, {
     refetchQueries: [GET_POST_BY_POST_ID, 'getPostListByPostId'],
   })
-  const post: Post = data?.getPostListByPostId
+  const singlepost = data?.getPostListByPostId
 
   const { data: session } = useSession()
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     //post comment
-    console.log('Submit handler', data)
+
     const notification = toast.loading('Posting your comment...')
     await addComment({
       variables: {
@@ -48,13 +49,13 @@ const PostPage = () => {
       id: notification,
     })
   }
-  console.log('postID', post)
+
   return (
     <div className="mx-auto my-7 max-w-5xl">
-      <Post post={post} />
+      <Post post={singlepost} />
       <div className="-mt-1 rounded-b-md border border-t-0 border-gray-300 bg-white p-5 pl-16">
         <p className="text-sm">
-          Comments as{' '}
+          Comments as
           <span className="text-red-500">{session?.user?.name}</span>
         </p>
         <form
@@ -79,8 +80,9 @@ const PostPage = () => {
       </div>
       <div className="-my-5 rounded-b-md border border-t-0 border-gray-300 bg-white py-5 px-10">
         <hr className="py-2" />
-        {post?.comments?.length > 0 &&
-          post?.comments?.map((comment: Comment) => (
+        {singlepost?.comments?.map((comment: any) => {
+          if (!comment) return
+          return (
             <div
               className="relative flex items-center space-x-2 space-y-5"
               key={comment.id}
@@ -97,7 +99,8 @@ const PostPage = () => {
                 <p>{comment.text}</p>
               </div>
             </div>
-          ))}
+          )
+        })}
       </div>
     </div>
   )

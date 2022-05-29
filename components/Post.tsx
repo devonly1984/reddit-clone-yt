@@ -11,6 +11,8 @@ import Avatar from './Avatar'
 import TimeAgo from 'react-timeago'
 import Link from 'next/link'
 import { Jelly } from '@uiball/loaders'
+import { Post } from '../typings'
+
 type Props = {
   post: Post
 }
@@ -22,7 +24,7 @@ const Post = ({ post }: Props) => {
       </div>
     )
   return (
-    <Link href={`/post/${post.id}`}>
+    <Link href={`/post/${post.id}`} passHref>
       <div className="flex cursor-pointer border border-gray-300 bg-white shadow-sm hover:border hover:border-gray-600">
         {/**Votes */}
         <div className="flex flex-col items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400">

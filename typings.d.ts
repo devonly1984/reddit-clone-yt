@@ -1,9 +1,9 @@
-type Comment = {
-  created_at: string
+export type Comment = {
   id: number
+  username: string
+  created_at: string
   post_id: number
   text: string
-  username: string
 }
 type Vote = {
   created_at: string
@@ -17,7 +17,7 @@ type Subreddit = {
   id: number
   topic: string
 }
-type Post = {
+export type Post = {
   body: string
   created_at: string
   id: number
